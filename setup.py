@@ -5,7 +5,7 @@ import numpy as np
 extensions = [
     Extension(
         "numcy.fast_array_nd",
-        sources=["numcy/fast_array_nd.pyx"],
+        sources=["numcy/fastarray.pyx"],
         include_dirs=[np.get_include()],
         libraries=["blas"],  # or ["openblas"] depending on your system
         library_dirs=[],
@@ -26,7 +26,7 @@ setup(
     author="Your Name",
     packages=["numcy"],
     ext_modules=cythonize(extensions, annotate=True, 
-compiler_directives={'language_level': 3}),
+                          compiler_directives={'language_level': 3}),
     zip_safe=False,
 )
 
