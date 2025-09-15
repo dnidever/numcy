@@ -24,7 +24,3 @@ classifiers = [
 [tool.setuptools]
 packages = ["numcy"]
 zip-safe = false
-
-[tool.setuptools.extension]
-# The actual extensions are defined in setup.py
-
