@@ -1,31 +1,20 @@
-# fast_array_nd.pxd
+# fastarray.pxd
+# C-level declarations for FastArrayND
+
+cimport numpy as cnp
 
 cdef class FastArrayND:
-    cdef public int ndim
-    cdef public int[::1] shape
-    cdef public int size
-    cdef double[::1] data
+    cdef double[::1] data         # 1D contiguous memoryview
+    cdef int[::1] shape           # shape as 1D contiguous memoryview
+    cdef int ndim
+    cdef Py_ssize_t size
 
-    # -------------------
-    # Constructor / Destructor
-    # -------------------
-    def __init__(self, int[:] shape)
-    def __dealloc__(self)
+    # C-level methods
+    cdef void _binary_op(self, FastArrayND other, FastArrayND out, char op)
 
-    # -------------------
-    # Arithmetic operators
-    # -------------------
-    def __add__(self, other)
-    def __sub__(self, other)
-    def __mul__(self, other)
-    def __truediv__(self, other)
-    def __pow__(self, other)
+    cdef FastArrayND _ensure_array(self, other)
 
-    def __iadd__(self, other)
-    def __isub__(self, other)
-    def __imul__(self, other)
-    def __itruediv__(self, other)
-    def __ipow__(self, other)
+    cdef tuple shape_tuple(self)
 
     # -------------------
     # Elementwise ufuncs
@@ -34,14 +23,3 @@ cdef class FastArrayND:
     cpdef FastArrayND log(self)
     cpdef FastArrayND sin(self)
     cpdef FastArrayND cos(self)
-
-    # -------------------
-    # Indexing / slicing
-    # -------------------
-    def __getitem__(self, idx)
-
-    # -------------------
-    # BLAS Matrix Multiplication
-    # -------------------
-    cpdef FastArrayND matmul(self, FastArrayND other)
-    cpdef FastArrayND batched_matmul(self, FastArrayND other)
